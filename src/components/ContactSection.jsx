@@ -1,19 +1,21 @@
+import PropTypes from "prop-types";
+import useSectionAnimation from "../hooks/useSectionAnimation";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 
-function ContactSection() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.4 });
+function ContactSection({ setActiveSection }) {
+  const { ref, hasAnimated } = useSectionAnimation("contact", setActiveSection);
 
   return (
     <section
-      className="contact w-screen h-screen flex justify-center items-center bg-secondary"
+      id="contact"
       ref={ref}
+      className="w-screen h-screen flex justify-center items-center bg-secondary"
     >
       <motion.div
         className="md:w-1/2 p-8"
         initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 1, ease: "easeIn" }}
+        animate={hasAnimated ? { opacity: 1 } : {}}
+        transition={{ duration: 1.5, ease: "easeIn" }}
       >
         <form>
           <h1 className="text-3xl md:text-5xl font-bold text-center mb-10 d:mb-16">
@@ -80,5 +82,7 @@ function ContactSection() {
     </section>
   );
 }
+
+ContactSection.propTypes = { setActiveSection: PropTypes.func.isRequired };
 
 export default ContactSection;

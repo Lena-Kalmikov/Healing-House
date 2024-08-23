@@ -1,28 +1,33 @@
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-
+import PropTypes from "prop-types";
 import placeholder from "../assets/placeholder.png";
+import useSectionAnimation from "../hooks/useSectionAnimation";
+import { motion } from "framer-motion";
+import { scroller } from "react-scroll";
 
-function HeroSection() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.4 });
+function HeroSection({ setActiveSection }) {
+  const { ref, hasAnimated } = useSectionAnimation("hero", setActiveSection);
 
-  function scrollToContact() {
-    document.querySelector(".contact").scrollIntoView({ behavior: "smooth" });
-  }
+  const handleScrollToContact = () => {
+    setActiveSection("contact"); // Set active section
+    scroller.scrollTo("contact", {
+      smooth: true,
+      duration: 500,
+    });
+  };
 
   return (
     <section
-      className="hero w-screen h-screen flex justify-center bg-primary"
+      id="hero"
       ref={ref}
+      className="w-screen h-screen flex justify-center bg-primary"
     >
       <div className="flex flex-col md:flex-row max-w-6xl p-6">
         <motion.div
-          className="flex-1 flex flex-col md:flex-row justify-center"
+          className="flex-1 flex flex-col justify-center p-4"
           initial={{ x: "35%", opacity: 0 }}
-          animate={inView ? { x: 0, opacity: 1 } : {}}
+          animate={hasAnimated ? { x: 0, opacity: 1 } : {}}
           transition={{ duration: 1.5, ease: "easeOut" }}
         >
-          <div className="flex-1 flex flex-col justify-center p-4 text-center md:text-left">
             <h1 className="text-3xl md:text-6xl font-bold mb-4">כותרת ראשית</h1>
             <p className="md:text-xl mb-4">
               לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג אלית קולהע צופעט
@@ -32,19 +37,18 @@ function HeroSection() {
             </p>
             <motion.div
               initial={{ x: "35%", opacity: 0 }}
-              animate={inView ? { x: 0, opacity: 1 } : {}}
+              animate={hasAnimated ? { x: 0, opacity: 1 } : {}}
               transition={{ duration: 2.5, ease: "easeOut" }}
             >
-              <button className="custom-btn" onClick={scrollToContact}>
+              <button className="custom-btn" onClick={handleScrollToContact}>
                 יצירת קשר
               </button>
             </motion.div>
-          </div>
         </motion.div>
         <motion.div
-          className="flex-1 flex items-center justify-center p-4 md:mr-10"
+          className="flex-1 flex items-center p-4 md:mr-10"
           initial={{ y: "-22%", opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
+          animate={hasAnimated ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 2, ease: "easeOut" }}
         >
           <img
@@ -57,5 +61,7 @@ function HeroSection() {
     </section>
   );
 }
+
+HeroSection.propTypes = { setActiveSection: PropTypes.func.isRequired };
 
 export default HeroSection;

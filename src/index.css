@@ -17,27 +17,26 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: theme('colors.scrollbarTrack');
+  background: theme("colors.scrollbarTrack");
 }
 
 ::-webkit-scrollbar-thumb {
-  background: theme('colors.accent')  
+  background: theme("colors.accent");
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.scrollbarThumbHover')
-}
-
-
-input:focus, textarea:focus, select:focus {
-  outline: 2px solid theme('colors.accent');
+  background: theme("colors.scrollbarThumbHover");
 }
 
 body {
   overflow-x: hidden;
 }
 
-
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid theme("colors.accent");
+}
 
 @layer components {
   .custom-btn {
